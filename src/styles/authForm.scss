@@ -1,4 +1,4 @@
-.container {
+.auth-form-container {
   @apply max-w-full flex flex-col gap-3 justify-center items-center bg-white rounded-xl px-10 py-6;
   & {
     input:not([type="file"]) {
