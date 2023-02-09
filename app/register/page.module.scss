@@ -1,0 +1,36 @@
+.container {
+  @apply max-w-full flex flex-col gap-3 justify-center items-center bg-white rounded-xl px-10 py-6;
+  & {
+    input:not([type="file"]) {
+      @apply p-3 border-b border-zinc-500 placeholder:text-zinc-500;
+      outline: none;
+      &:focus {
+        box-shadow: 0 0.8px 0 0 rgb(113, 113, 122);
+      }
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    label {
+      @apply flex place-items-center gap-3 text-zinc-500 cursor-pointer;
+    }
+
+    span:first-of-type {
+      @apply font-bold text-2xl;
+    }
+
+    span {
+      @apply text-indigo-400 text-xs;
+    }
+
+    button {
+      @apply bg-indigo-500 hover:bg-indigo-400 text-white p-3 rounded-xl transition-all;
+    }
+
+    p {
+      @apply text-zinc-700 mt-3;
+    }
+  }
+}
