@@ -17,7 +17,7 @@
       @apply flex place-items-center gap-3 text-zinc-500 cursor-pointer;
     }
 
-    span:first-of-type {
+    a span {
       @apply font-bold text-2xl;
     }
 

@@ -16,7 +16,9 @@ export default function AuthLogin() {
 
   return (
     <section className="auth-form-container">
-      <span>My Chat</span>
+      <Link href={"/"}>
+        <span>My Chat</span>
+      </Link>
       <span>Login</span>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <input
@@ -38,7 +40,7 @@ export default function AuthLogin() {
       <p>
         You do not have an account?{" "}
         {
-          <Link href={"register"} className="underline text-indigo-500">
+          <Link href={"registration"} className="underline text-indigo-500">
             Sign up
           </Link>
         }

@@ -17,7 +17,9 @@ export default function AuthRegistration() {
 
   return (
     <section className="auth-form-container">
-      <span>My Chat</span>
+      <Link href={"/"}>
+        <span>My Chat</span>
+      </Link>
       <span>Registration</span>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <input
