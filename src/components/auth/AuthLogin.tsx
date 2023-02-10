@@ -16,7 +16,7 @@ export default function AuthLogin() {
 
   return (
     <section className="auth-form-container">
-      <Link href={"/"}>
+      <Link href={"/"} title="go to home page">
         <span>My Chat</span>
       </Link>
       <span>Login</span>

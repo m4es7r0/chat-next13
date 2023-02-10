@@ -17,7 +17,7 @@ export default function AuthRegistration() {
 
   return (
     <section className="auth-form-container">
-      <Link href={"/"}>
+      <Link href={"/"} title="go to home page">
         <span>My Chat</span>
       </Link>
       <span>Registration</span>

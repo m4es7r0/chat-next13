@@ -15,9 +15,7 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body className="flex justify-center items-center m-0 mx-auto">
-        {children}
-      </body>
+      <body className="flex justify-center items-center p-1">{children}</body>
     </html>
   );
 }

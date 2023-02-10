@@ -2,7 +2,7 @@
   @apply max-w-full flex flex-col gap-3 justify-center items-center bg-white rounded-xl px-10 py-6;
   & {
     input:not([type="file"]) {
-      @apply p-3 border-b border-zinc-500 placeholder:text-zinc-500;
+      @apply p-3 border-b border-zinc-500 placeholder:text-zinc-500 transition-all;
       outline: none;
       &:focus {
         box-shadow: 0 0.8px 0 0 rgb(113, 113, 122);
