@@ -17,7 +17,7 @@ export default function AuthLogin() {
   return (
     <section className="auth-form-container">
       <Link href={"/"} title="go to home page">
-        <span>My Chat</span>
+        <span>MyChat</span>
       </Link>
       <span>Login</span>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">

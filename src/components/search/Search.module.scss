@@ -1,0 +1,17 @@
+.search {
+  @apply border-b-[1px] border-zinc-400;
+
+  & > div:first-of-type input {
+    @apply w-full p-2 bg-transparent text-zinc-200 outline-none placeholder:text-zinc-200;
+  }
+
+  & > div:not(:first-of-type) {
+    @apply flex gap-2 items-center p-2 cursor-pointer transition;
+    &:hover {
+      @apply bg-[#2f2d52];
+    }
+    & img {
+      @apply w-12 h-12 rounded-full;
+    }
+  }
+}

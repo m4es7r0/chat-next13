@@ -1,0 +1,18 @@
+.navbar {
+  @apply bg-[#2e2d51] text-[#ddddf7] flex items-center justify-between py-6 px-3;
+  & > span:first-of-type {
+    @apply font-bold;
+  }
+
+  & > div:first-of-type {
+    @apply flex items-center gap-2;
+
+    & > div img {
+      @apply rounded-full h-6 w-6;
+    }
+
+    & > button {
+      @apply bg-[#5e5b8c] text-xs rounded-xl py-1 px-2;
+    }
+  }
+}
