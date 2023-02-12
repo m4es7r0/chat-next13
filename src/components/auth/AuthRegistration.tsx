@@ -1,7 +1,9 @@
 "use client";
 
+import { useAppActions, useAppSelector } from "@/src/hooks/useRedux";
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type Inputs = {
@@ -11,13 +13,18 @@ type Inputs = {
 };
 
 export default function AuthRegistration() {
+  const { getRegisterData } = useAppActions();
+  const fileRef = useRef<HTMLInputElement | null>(null);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    getRegisterData(data);
+  };
 
   return (
     <section className="auth-form-container">
@@ -71,8 +78,14 @@ export default function AuthRegistration() {
           </span>
         )}
 
-        <input type="file" id="avatar" />
-        <label htmlFor="avatar">
+        <input type="file" id="avatar" ref={fileRef} />
+        <label
+          htmlFor="avatar"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (fileRef.current && e.key === "Enter") fileRef.current.click();
+          }}
+        >
           {
             <Image
               src={"/img/addAvatar.png"}
