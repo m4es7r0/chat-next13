@@ -12,7 +12,7 @@
     }
 
     & > button {
-      @apply bg-[#5e5b8c] text-xs rounded-xl py-1 px-2;
+      @apply bg-[#5e5b8c] text-xs rounded-full py-1 px-2;
     }
   }
 }

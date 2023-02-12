@@ -1,15 +1,7 @@
 .chat {
-  & > div {
-    @apply bg-[#5d5b8d] flex items-center justify-between py-6 px-3;
+  @apply flex flex-col justify-between;
 
-    & > span {
-      @apply text-[#ddddf7] font-bold;
-    }
-    & > div {
-      @apply flex gap-2;
-      & img {
-        @apply w-6 h-6 rounded-full cursor-pointer;
-      }
-    }
+  & > div:not(:last-of-type, :first-of-type) {
+    @apply flex-1;
   }
 }

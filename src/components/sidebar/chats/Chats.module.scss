@@ -2,7 +2,7 @@
   @apply overflow-auto;
 
   & > div {
-    @apply flex items-center gap-2 p-2 cursor-pointer transition hover:bg-[#2f2d52];
+    @apply flex items-center gap-2 p-3 cursor-pointer transition hover:bg-[#2f2d52];
 
     & > div {
       & > span {
