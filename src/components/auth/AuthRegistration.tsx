@@ -11,7 +11,11 @@ type Inputs = {
 };
 
 export default function AuthRegistration() {
-  const { register, handleSubmit, watch } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
@@ -25,23 +29,48 @@ export default function AuthRegistration() {
         <input
           type="text"
           placeholder="display name"
-          {...(register("name"),
-          { required: true, minLength: 2, maxLength: 24 })}
+          {...register("name", { required: true, minLength: 2, maxLength: 24 })}
         />
+        {errors.name && (
+          <span>
+            {errors.name.type === "required" ? "this field required" : null}
+            {errors.name.type === "minLength" ? "min length 2 symb" : null}
+            {errors.name.type === "maxLength" ? "max length 24 symb" : null}
+          </span>
+        )}
+
         <input
           type="email"
           placeholder="email"
-          {...(register("email"),
-          {
+          {...register("email", {
             required: true,
+            pattern: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
           })}
         />
+        {errors.email && (
+          <span>
+            {errors.email.type === "required" ? "this field required" : null}
+            {errors.email.type === "pattern" ? "this should be an email" : null}
+          </span>
+        )}
+
         <input
           type="password"
           placeholder="password"
-          {...(register("password"),
-          { required: true, minLength: 8, maxLength: 24 })}
+          {...register("password", {
+            required: true,
+            minLength: 8,
+            maxLength: 24,
+          })}
         />
+        {errors.password && (
+          <span>
+            {errors.password.type === "required" ? "this field required" : null}
+            {errors.password.type === "minLength" ? "min length 8 symb" : null}
+            {errors.password.type === "maxLength" ? "max length 24 symb" : null}
+          </span>
+        )}
+
         <input type="file" id="avatar" />
         <label htmlFor="avatar">
           {

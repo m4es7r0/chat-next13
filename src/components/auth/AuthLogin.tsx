@@ -11,7 +11,11 @@ type Inputs = {
 };
 
 export default function AuthLogin() {
-  const { register, handleSubmit } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   return (
@@ -24,17 +28,27 @@ export default function AuthLogin() {
         <input
           type="email"
           placeholder="email"
-          {...(register("email"),
-          {
+          {...register("email", {
             required: true,
+            pattern: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
           })}
         />
+        {errors.email && (
+          <span>
+            {errors.email.type === "required" ? "this field required" : null}
+            {errors.email.type === "pattern" ? "this should be an email" : null}
+          </span>
+        )}
+
         <input
           type="password"
           placeholder="password"
-          {...(register("password"),
-          { required: true, minLength: 8, maxLength: 24 })}
+          {...register("password", {
+            required: true,
+          })}
         />
+        {errors.password && <span>password or login is incorrect</span>}
+
         <button type="submit">Sign in</button>
       </form>
       <p>
