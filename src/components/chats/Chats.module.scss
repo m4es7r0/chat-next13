@@ -1,0 +1,18 @@
+.chats {
+  & > div {
+    @apply flex items-center gap-2 p-2 cursor-pointer transition hover:bg-[#2f2d52];
+
+    & > div {
+      & > span {
+        @apply font-bold;
+      }
+      & > p {
+        @apply text-xs text-zinc-300;
+      }
+    }
+
+    & > img {
+      @apply w-12 h-12 rounded-full;
+    }
+  }
+}
