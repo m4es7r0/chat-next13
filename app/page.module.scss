@@ -9,7 +9,7 @@
 
     /* sidebar */
     & > div:first-of-type {
-      @apply bg-[#3d3c61] text-[#ddddf7];
+      @apply flex flex-col bg-[#3d3c61] text-[#ddddf7] h-full overflow-hidden;
       flex: 1;
     }
     /* chat */
