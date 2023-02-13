@@ -4,7 +4,7 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ["w7.pngwing.com"],
+    domains: ["w7.pngwing.com", "firebasestorage.googleapis.com"],
   },
 };
 

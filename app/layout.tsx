@@ -1,4 +1,9 @@
+"use client";
+
+import { AuthContext } from "@/src/context/AuthContext";
 import { Inter } from "@next/font/google";
+import { useRouter } from "next/navigation";
+import { useContext, useEffect } from "react";
 import "./globals.css";
 import { Providers } from "./providers";
 
@@ -9,6 +14,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!currentUser) router.replace("/login");
+  }, [currentUser]);
+
   return (
     <html lang="en" className={`${inter.className} bg-indigo-300`}>
       {/*

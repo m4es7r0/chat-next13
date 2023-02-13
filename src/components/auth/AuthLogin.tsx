@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+
+import { auth } from "@/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 import "@/src/styles/authForm.scss";
 
@@ -11,12 +17,22 @@ type Inputs = {
 };
 
 export default function AuthLogin() {
+  const router = useRouter();
+  const [err, setErr] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+      router.replace("/");
+    } catch (error) {
+      setErr(true);
+    }
+  };
 
   return (
     <section className="auth-form-container">
@@ -47,7 +63,9 @@ export default function AuthLogin() {
             required: true,
           })}
         />
-        {errors.password && <span>password or login is incorrect</span>}
+        {(errors.password || err) && (
+          <span>password or login is incorrect</span>
+        )}
 
         <button type="submit">Sign in</button>
       </form>

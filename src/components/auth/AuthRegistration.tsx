@@ -26,13 +26,7 @@ type Inputs = {
 };
 
 export default function AuthRegistration() {
-  const { currentUser } = useContext(AuthContext);
   const router = useRouter();
-
-  useEffect(() => {
-    if (currentUser) router.replace("/");
-  }, [currentUser]);
-
   const [err, setErr] = useState(false);
 
   const {

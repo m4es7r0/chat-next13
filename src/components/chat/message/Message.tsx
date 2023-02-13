@@ -16,9 +16,7 @@ const Message: FC = () => {
           height={1280}
         />
         <div>
-          <time dateTime={`${new Date().toISOString()}`}>
-            {new Date().toDateString().slice(0, -5)}
-          </time>
+          <time>{new Date().toDateString().slice(0, -5)}</time>
           <span>{new Date().toLocaleTimeString().slice(0, -3)}</span>
         </div>
       </div>
