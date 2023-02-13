@@ -1,29 +1,93 @@
 "use client";
 
+import { auth, db, storage } from "@/firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import {
+  getDownloadURL,
+  ref as fireRef,
+  uploadBytesResumable,
+} from "firebase/storage";
+
 import { useAppActions, useAppSelector } from "@/src/hooks/useRedux";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRouter } from "next/navigation";
+
+import { AuthContext } from "@/src/context/AuthContext";
+import { useContext, useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type Inputs = {
-  name: string;
+  displayName: string;
   email: string;
   password: string;
+  file: any;
 };
 
 export default function AuthRegistration() {
-  const { getRegisterData } = useAppActions();
-  const fileRef = useRef<HTMLInputElement | null>(null);
+  const { currentUser } = useContext(AuthContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (currentUser) router.replace("/");
+  }, [currentUser]);
+
+  const [err, setErr] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    getRegisterData(data);
+  const fileRef = useRef<HTMLInputElement | null>(null);
+  const { ref, ...rest } = register("file");
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      //Create user
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+
+      //Create a unique image name
+      const date = new Date().getTime();
+      const storageRef = fireRef(storage, `${data.displayName + date}`);
+
+      await uploadBytesResumable(storageRef, data.file[0]).then(() => {
+        getDownloadURL(storageRef).then(async (downloadURL) => {
+          try {
+            //Update profile
+            await updateProfile(res.user, {
+              displayName: data.displayName,
+              photoURL: downloadURL,
+            });
+            //create user on firestore
+            await setDoc(doc(db, "users", res.user.uid), {
+              uid: res.user.uid,
+              displayName: data.displayName,
+              email: data.email,
+              photoURL: downloadURL,
+            });
+
+            //create empty user chats on firestore
+            await setDoc(doc(db, "userChats", res.user.uid), {});
+            // getRegisterData(data);
+            // setLoggedStatus(true);
+            router.replace("/");
+          } catch (err) {
+            console.error(err);
+            setErr(true);
+          }
+        });
+      });
+    } catch (err) {
+      setErr(true);
+    }
   };
 
   return (
@@ -36,13 +100,23 @@ export default function AuthRegistration() {
         <input
           type="text"
           placeholder="display name"
-          {...register("name", { required: true, minLength: 2, maxLength: 24 })}
+          {...register("displayName", {
+            required: true,
+            minLength: 2,
+            maxLength: 24,
+          })}
         />
-        {errors.name && (
+        {errors.displayName && (
           <span>
-            {errors.name.type === "required" ? "this field required" : null}
-            {errors.name.type === "minLength" ? "min length 2 symb" : null}
-            {errors.name.type === "maxLength" ? "max length 24 symb" : null}
+            {errors.displayName.type === "required"
+              ? "this field required"
+              : null}
+            {errors.displayName.type === "minLength"
+              ? "min length 2 symb"
+              : null}
+            {errors.displayName.type === "maxLength"
+              ? "max length 24 symb"
+              : null}
           </span>
         )}
 
@@ -72,13 +146,27 @@ export default function AuthRegistration() {
         />
         {errors.password && (
           <span>
-            {errors.password.type === "required" ? "this field required" : null}
-            {errors.password.type === "minLength" ? "min length 8 symb" : null}
-            {errors.password.type === "maxLength" ? "max length 24 symb" : null}
+            {errors.password!.type === "required"
+              ? "this field required"
+              : null}
+            {errors.password!.type === "minLength" ? "min length 8 symb" : null}
+            {errors.password!.type === "maxLength"
+              ? "max length 24 symb"
+              : null}
           </span>
         )}
+        {err ? <span>something went wrong</span> : null}
 
-        <input type="file" id="avatar" ref={fileRef} />
+        <input
+          type="file"
+          accept="image/*"
+          id="avatar"
+          {...rest}
+          ref={(e) => {
+            ref(e);
+            fileRef.current = e;
+          }}
+        />
         <label
           htmlFor="avatar"
           tabIndex={0}

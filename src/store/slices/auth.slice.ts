@@ -4,25 +4,28 @@ import type { RootState } from "../store";
 
 interface IAuthState {
   user: {
-    name: string;
+    displayName: string;
     email: string;
     password: string;
+    file?: any;
   };
+  logged: boolean;
 }
 
 const initialState: IAuthState = {
-  user: { name: "", email: "", password: "" },
+  user: { displayName: "", email: "", password: "" },
+  logged: false,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    getRegisterData: (
-      state,
-      { payload }: PayloadAction<IAuthState["user"]>
-    ) => {
-      state.user = payload;
+    setLoggedStatus: (state, action) => {
+      state.logged = action.payload;
+    },
+    getRegisterData: (state, action) => {
+      state.user = action.payload;
     },
   },
 });
