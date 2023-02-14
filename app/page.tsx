@@ -6,20 +6,15 @@ import Sidebar from "@/src/components/sidebar/Sidebar";
 import { Inter } from "@next/font/google";
 import Image from "next/image";
 
-import { AuthContext } from "@/src/context/AuthContext";
-import { useContext } from "react";
-
 import styles from "./page.module.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const { currentUser } = useContext(AuthContext);
-
   return (
     <main className={`${inter.className} ${styles.main}`}>
       <div>
-        {currentUser ? (
+        {localStorage.getItem("myPage.expectSignIn") ? (
           <>
             <Sidebar />
             <Chat />

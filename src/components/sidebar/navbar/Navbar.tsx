@@ -13,26 +13,22 @@ import styles from "./Navbar.module.scss";
 const Navbar: FC = () => {
   const router = useRouter();
   const { currentUser } = useContext(AuthContext);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    setLoading(!!currentUser);
-  }, [currentUser]);
 
   return (
     <div className={styles.navbar}>
       <span>MyChat</span>
       <div>
         <div>
-          {loading ? (
-            <Image
+          {currentUser ? (
+            <img
               src={currentUser?.photoURL as string}
-              width={1270}
-              height={1270}
               alt={currentUser?.displayName as string}
+              onError={(e) => {
+                e.currentTarget.src = "/img/user.svg";
+              }}
             />
           ) : (
-            <Image src="/loader.png" width={1270} height={1270} alt="loader" />
+            <Image src="/loader.png" width={1920} height={1920} alt="loader" />
           )}
         </div>
         <span>{currentUser?.displayName}</span>

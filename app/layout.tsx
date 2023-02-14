@@ -1,9 +1,9 @@
 "use client";
 
-import { AuthContext } from "@/src/context/AuthContext";
+import { auth } from "@/firebase";
 import { Inter } from "@next/font/google";
-import { useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import "./globals.css";
 import { Providers } from "./providers";
 
@@ -15,11 +15,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { currentUser } = useContext(AuthContext);
+  const path = usePathname();
 
   useEffect(() => {
-    if (!currentUser) router.replace("/login");
-  }, [currentUser]);
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        localStorage.setItem("myPage.expectSignIn", "1");
+        if (path === "/login" || "/registration") router.replace("/");
+      } else {
+        localStorage.removeItem("myPage.expectSignIn");
+        router.replace(path !== "/registration" ? "login" : "registration");
+      }
+    });
+  }, []);
 
   return (
     <html lang="en" className={`${inter.className} bg-indigo-300`}>

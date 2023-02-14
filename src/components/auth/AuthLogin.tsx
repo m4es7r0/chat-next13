@@ -10,6 +10,7 @@ import { auth } from "@/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 import "@/src/styles/authForm.scss";
+import Image from "next/image";
 
 type Inputs = {
   email: string;
@@ -67,15 +68,25 @@ export default function AuthLogin() {
           <span>password or login is incorrect</span>
         )}
 
-        <button type="submit">Sign in</button>
+        <button type="submit">
+          {auth.currentUser ? (
+            <Image
+              className="w-7 h-7"
+              src="/loader.png"
+              width={1920}
+              height={1920}
+              alt="loader"
+            />
+          ) : (
+            "Sign in"
+          )}
+        </button>
       </form>
       <p>
         You do not have an account?{" "}
-        {
-          <Link href={"registration"} className="underline text-indigo-500">
-            Sign up
-          </Link>
-        }
+        <Link href={"registration"} className="underline text-indigo-500">
+          Sign up
+        </Link>
       </p>
     </section>
   );

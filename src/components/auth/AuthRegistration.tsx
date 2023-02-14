@@ -6,16 +6,16 @@ import { doc, setDoc } from "firebase/firestore";
 import {
   getDownloadURL,
   ref as fireRef,
+  uploadBytes,
   uploadBytesResumable,
 } from "firebase/storage";
 
 import { useAppActions, useAppSelector } from "@/src/hooks/useRedux";
-import Image from "next/image";
+import NextImage from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { AuthContext } from "@/src/context/AuthContext";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type Inputs = {
@@ -33,7 +33,6 @@ export default function AuthRegistration() {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm<Inputs>();
 
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -70,8 +69,6 @@ export default function AuthRegistration() {
 
             //create empty user chats on firestore
             await setDoc(doc(db, "userChats", res.user.uid), {});
-            // getRegisterData(data);
-            // setLoggedStatus(true);
             router.replace("/");
           } catch (err) {
             console.error(err);
@@ -169,7 +166,7 @@ export default function AuthRegistration() {
           }}
         >
           {
-            <Image
+            <NextImage
               src={"/img/addAvatar.png"}
               alt="add Avatar"
               width={38}
@@ -178,7 +175,19 @@ export default function AuthRegistration() {
           }
           Add an avatar
         </label>
-        <button type="submit">Sign up</button>
+        <button type="submit">
+          {auth.currentUser ? (
+            <NextImage
+              className="w-7 h-7"
+              src="/loader.png"
+              width={1920}
+              height={1920}
+              alt="loader"
+            />
+          ) : (
+            "Sign up"
+          )}
+        </button>
       </form>
       <p>
         You do have an account?{" "}

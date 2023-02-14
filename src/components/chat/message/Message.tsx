@@ -5,7 +5,11 @@ import { FC } from "react";
 
 import styles from "./Message.module.scss";
 
-const Message: FC = () => {
+interface IMassage {
+  timestamp: Date;
+}
+
+const Message: FC<IMassage> = ({ timestamp }) => {
   return (
     <div className={styles.message}>
       <div>
@@ -16,8 +20,13 @@ const Message: FC = () => {
           height={1280}
         />
         <div>
-          <time>{new Date().toDateString().slice(0, -5)}</time>
-          <span>{new Date().toLocaleTimeString().slice(0, -3)}</span>
+          <time>{timestamp?.toLocaleDateString("en-gb")}</time>
+          <span>
+            {timestamp?.toLocaleTimeString("en-us", {
+              hour: "numeric",
+              minute: "numeric",
+            })}
+          </span>
         </div>
       </div>
 
