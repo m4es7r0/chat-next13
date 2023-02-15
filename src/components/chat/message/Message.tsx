@@ -1,15 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import styles from "./Message.module.scss";
 
-interface IMassage {
-  timestamp: Date;
-}
+const Message: FC = () => {
+  const [timestamp] = useState<Date>(new Date());
 
-const Message: FC<IMassage> = ({ timestamp }) => {
   return (
     <div className={styles.message}>
       <div>
@@ -20,9 +18,9 @@ const Message: FC<IMassage> = ({ timestamp }) => {
           height={1280}
         />
         <div>
-          <time>{timestamp?.toLocaleDateString("en-gb")}</time>
+          <time>{timestamp.toLocaleDateString("en-gb")}</time>
           <span>
-            {timestamp?.toLocaleTimeString("en-us", {
+            {timestamp.toLocaleTimeString("en-us", {
               hour: "numeric",
               minute: "numeric",
             })}

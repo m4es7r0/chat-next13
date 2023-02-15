@@ -7,7 +7,7 @@ const Messages: FC = () => {
   return (
     <div className={`${styles.messages}`}>
       {[...Array(5)].map((el, i) => (
-        <Message key={i} timestamp={new Date()} />
+        <Message key={i} />
       ))}
     </div>
   );

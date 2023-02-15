@@ -5,16 +5,25 @@ import Sidebar from "@/src/components/sidebar/Sidebar";
 
 import { Inter } from "@next/font/google";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 import styles from "./page.module.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [logged, setLogged] = useState(false);
+
+  useEffect(() => {
+    setLogged(
+      localStorage.getItem("myPage.expectSignIn") as unknown as boolean
+    );
+  }, []);
+
   return (
     <main className={`${inter.className} ${styles.main}`}>
       <div>
-        {localStorage.getItem("myPage.expectSignIn") ? (
+        {logged ? (
           <>
             <Sidebar />
             <Chat />
