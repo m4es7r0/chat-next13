@@ -6,11 +6,9 @@ import { doc, setDoc } from "firebase/firestore";
 import {
   getDownloadURL,
   ref as fireRef,
-  uploadBytes,
   uploadBytesResumable,
 } from "firebase/storage";
 
-import { useAppActions, useAppSelector } from "@/src/hooks/useRedux";
 import NextImage from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -33,7 +31,10 @@ export default function AuthRegistration() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<Inputs>();
+
+  console.log(watch("file"));
 
   const fileRef = useRef<HTMLInputElement | null>(null);
   const { ref, ...rest } = register("file");
@@ -50,8 +51,14 @@ export default function AuthRegistration() {
       //Create a unique image name
       const date = new Date().getTime();
       const storageRef = fireRef(storage, `${data.displayName + date}`);
+      const defaultUserImage = await fetch("/img/user.svg").then((res) =>
+        res.blob()
+      );
 
-      await uploadBytesResumable(storageRef, data.file[0]).then(() => {
+      await uploadBytesResumable(
+        storageRef,
+        data.file.length !== 0 ? data.file[0] : defaultUserImage
+      ).then(() => {
         getDownloadURL(storageRef).then(async (downloadURL) => {
           try {
             //Update profile

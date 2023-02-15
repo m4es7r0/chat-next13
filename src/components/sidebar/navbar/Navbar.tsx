@@ -23,9 +23,9 @@ const Navbar: FC = () => {
             <img
               src={currentUser?.photoURL as string}
               alt={currentUser?.displayName as string}
-              onError={(e) => {
-                e.currentTarget.src = "/img/user.svg";
-              }}
+              // onError={(e) => {
+              //   e.currentTarget.src = "/img/user.svg";
+              // }}
             />
           ) : (
             <Image src="/loader.png" width={1920} height={1920} alt="loader" />
