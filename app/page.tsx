@@ -2,28 +2,23 @@
 
 import Chat from "@/src/components/chat/Chat";
 import Sidebar from "@/src/components/sidebar/Sidebar";
+import { AuthContext } from "@/src/context/AuthContext";
 
 import { Inter } from "@next/font/google";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import styles from "./page.module.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [logged, setLogged] = useState(false);
-
-  useEffect(() => {
-    setLogged(
-      localStorage.getItem("myPage.expectSignIn") as unknown as boolean
-    );
-  }, []);
+  const { currentUser } = useContext(AuthContext);
 
   return (
     <main className={`${inter.className} ${styles.main}`}>
       <div>
-        {logged ? (
+        {currentUser ? (
           <>
             <Sidebar />
             <Chat />
