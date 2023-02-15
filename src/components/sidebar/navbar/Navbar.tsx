@@ -18,7 +18,7 @@ const Navbar: FC = () => {
     <div className={styles.navbar}>
       <span>MyChat</span>
       <div>
-        <div>
+        <>
           {currentUser ? (
             <img
               src={currentUser?.photoURL as string}
@@ -30,7 +30,7 @@ const Navbar: FC = () => {
           ) : (
             <Image src="/loader.png" width={1920} height={1920} alt="loader" />
           )}
-        </div>
+        </>
         <span>{currentUser?.displayName}</span>
         <button
           onClick={() => {

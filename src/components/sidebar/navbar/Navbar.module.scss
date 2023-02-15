@@ -14,10 +14,8 @@
       text-overflow: ellipsis;
     }
 
-    & > div {
-      & img {
-        @apply rounded-full w-7 max-md:w-12;
-      }
+    & > img {
+      @apply rounded-full w-6 max-md:w-12;
     }
 
     & > button {
